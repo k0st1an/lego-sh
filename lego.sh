@@ -62,12 +62,12 @@ function renew() {
   if [[ -n $ARG_DOMAINS ]]; then
     for DOMAIN in $(echo "$ARG_DOMAINS" | tr ',' '\n'); do
       processing "$DOMAIN"
-      lego --email "$LEGOSH_EMAIL" --dns "$LEGOSH_DNS_PROVIDER" -d $DOMAIN renew $(hook)
+      lego --email "$LEGOSH_EMAIL" --dns "$LEGOSH_DNS_PROVIDER" --domains "$DOMAIN" renew $(hook)
     done
   elif [[ -r $LEGOSH_RENEW_DOMAINS_FILE ]]; then
     while IFS= read -r DOMAIN || [[ -n "$DOMAIN" ]]; do
       processing "$DOMAIN"
-      lego --email "$LEGOSH_EMAIL" --dns "$LEGOSH_DNS_PROVIDER" $"$DOMAIN" renew $(hook)
+      lego --email "$LEGOSH_EMAIL" --dns "$LEGOSH_DNS_PROVIDER" --domains "$DOMAIN" renew  $(hook)
     done < "$LEGOSH_RENEW_DOMAINS_FILE"
   else
     echo "domain is not defined" && exit 1
